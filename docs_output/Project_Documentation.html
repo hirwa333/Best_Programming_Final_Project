@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Smart Logistics & Transportation Management System - Complete Documentation</title>
+<style>
+body {
+    font-family: 'Calibri', Arial, sans-serif;
+    line-height: 1.6;
+    margin: 40px;
+    color: #333;
+}
+h1 {
+    color: #0066cc;
+    border-bottom: 3px solid #0066cc;
+    padding-bottom: 10px;
+    page-break-before: always;
+}
+h1:first-of-type {
+    page-break-before: avoid;
+}
+h2 {
+    color: #0066cc;
+    margin-top: 30px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+}
+h3 {
+    color: #333;
+    margin-top: 20px;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+th {
+    background-color: #0066cc;
+    color: white;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+pre {
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 13px;
+}
+.cover-page {
+    text-align: center;
+    margin-top: 200px;
+}
+.cover-page h1 {
+    font-size: 36px;
+    border: none;
+}
+.cover-page h2 {
+    font-size: 24px;
+    color: #666;
+    border: none;
+}
+.cover-page p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+.diagram-box {
+    background-color: #f9f9f9;
+    border: 2px solid #0066cc;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 5px;
+}
+.highlight {
+    background-color: #ffffcc;
+    padding: 2px 5px;
+}
+</style>
+</head>
+<body>
+
+<div class="cover-page">
+<h1>Smart Logistics & Transportation Management System</h1>
+<h2>Case Study: Impano Gateway Logistics Ltd</h2>
+<br><br>
+<p><strong>Course:</strong> Best Programming Practices and Design Patterns</p>
+<p><strong>Instructor:</strong> RUTARINDWA JEAN PIERRE</p>
+<p><strong>Faculty:</strong> Information Technology</p>
+<p><strong>Department:</strong> Software Engineering</p>
+<br><br>
+<p><strong>Student Name:</strong> _______________________</p>
+<p><strong>Student ID:</strong> _______________________</p>
+<p><strong>Date:</strong> _______________________</p>
+</div>
+
+<h1>PHASE 1 — System Analysis & Design</h1>
+
+<h2>i. General Description and Analysis of the Case Study</h2>
+
+<p><strong>Impano Gateway Logistics Ltd</strong> is a Rwandan logistics and transportation company that provides freight forwarding, cargo tracking, fleet management, and last-mile delivery services across Rwanda and the East African region. The company handles hundreds of shipments daily, manages a fleet of trucks and motorcycles, and coordinates with multiple drivers, warehouses, and clients.</p>
+
+<p>Currently, the company relies on <span class="highlight">manual processes</span> — phone calls, paper-based records, and spreadsheets — to manage shipments, assign drivers, and track deliveries. This leads to delays, lost shipments, poor customer communication, and inefficient fleet utilization.</p>
+
+<p>The proposed <strong>Smart Logistics & Transportation Management System (SLTMS)</strong> is a Java-based desktop application that digitizes and automates the core logistics operations of Impano Gateway Logistics Ltd.</p>
+
+<h2>ii. Functional Diagram — Internal Working of Impano Gateway Logistics Ltd</h2>
+
+<div class="diagram-box">
+<pre>
++------------------+       +-------------------+       +------------------+
+|    CLIENT        | ----> |  SHIPMENT BOOKING | ----> |  WAREHOUSE MGMT  |
+| (Places Order)   |       |  (Order Created)  |       |  (Cargo Stored)  |
++------------------+       +-------------------+       +------------------+
+                                                               |
+                                                               v
++------------------+       +-------------------+       +------------------+
+|  INVOICE/BILLING | <---- |  DELIVERY CONFIRM | <---- |  DRIVER ASSIGNED |
+|  (Payment Done)  |       |  (Status Updated) |       |  (Route Planned) |
++------------------+       +-------------------+       +------------------+
+                                                               |
+                                                               v
+                                                    +------------------+
+                                                    |  FLEET MANAGEMENT|
+                                                    |  (Vehicle Track) |
+                                                    +------------------+
+</pre>
+</div>
+
+<h3>Key Departments:</h3>
+<ul>
+<li><strong>Operations Department</strong> — Manages shipment bookings and driver assignments</li>
+<li><strong>Fleet Department</strong> — Maintains vehicles, tracks locations, schedules maintenance</li>
+<li><strong>Warehouse Department</strong> — Receives, stores, and dispatches cargo</li>
+<li><strong>Finance Department</strong> — Handles invoicing, payments, and financial reports</li>
+<li><strong>Customer Service</strong> — Handles client communication and delivery status updates</li>
+</ul>
+
+<h2>iii. Problems Faced by Impano Gateway Logistics Ltd</h2>
+
+<table>
+<tr>
+<th>#</th>
+<th>Problem</th>
+<th>Impact</th>
+</tr>
+<tr>
+<td>1</td>
+<td>Manual shipment tracking via phone calls</td>
+<td>Delays, miscommunication, lost shipments</td>
+</tr>
+<tr>
+<td>2</td>
+<td>No centralized driver/vehicle assignment system</td>
+<td>Inefficient fleet use, idle vehicles</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Paper-based invoicing and billing</td>
+<td>Errors, slow payment collection</td>
+</tr>
+<tr>
+<td>4</td>
+<td>No real-time delivery status for clients</td>
+<td>Poor customer satisfaction</td>
+</tr>
+<tr>
+<td>5</td>
+<td>No maintenance schedule for fleet</td>
+<td>Unexpected vehicle breakdowns</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Difficulty generating operational reports</td>
+<td>Poor management decisions</td>
+</tr>
+</table>
+
+<h2>iv. Object-Oriented System Analysis & Design</h2>
+
+<h3>1. Use Case Diagram</h3>
+
+<div class="diagram-box">
+<pre>
+                    +------------------------------------------+
+                    |   Smart Logistics & Transport System      |
+                    |                                          |
+  +----------+      |  [Register Shipment]                     |
+  |  Client  |----->|  [Track Shipment]                        |
+  +----------+      |  [View Invoice]                          |
+                    |  [Request Delivery]                      |
+                    |                                          |
+  +----------+      |  [Assign Driver to Shipment]             |
+  |  Driver  |----->|  [Update Delivery Status]                |
+  +----------+      |  [View Assigned Routes]                  |
+                    |                                          |
+  +----------+      |  [Manage Fleet/Vehicles]                 |
+  | Manager  |----->|  [Generate Reports]                      |
+  +----------+      |  [Manage Clients]                        |
+                    |  [Manage Drivers]                        |
+  +----------+      |  [Process Invoice/Payment]               |
+  |  Admin   |----->|  [Manage Users]                          |
+  +----------+      |  [Configure System]                      |
+                    +------------------------------------------+
+</pre>
+</div>
+
+<h3>2. Class Diagram</h3>
+
+<div class="diagram-box">
+<pre>
++------------------+          +---------------------+
+|     User         |          |     Shipment        |
+|------------------|          |---------------------|
+| - userId: String |          | - shipmentId: String|
+| - name: String   |          | - origin: String    |
+| - email: String  |          | - destination: String|
+| - role: Role     |          | - weight: double    |
+|------------------|          | - status: Status    |
+| + login()        |          | - client: Client    |
+| + logout()       |          | - driver: Driver    |
++------------------+          | - vehicle: Vehicle  |
+        ^                     |---------------------|
+        |                     | + updateStatus()    |
+   +---------+                | + calculateCost()   |
+   |         |                +---------------------+
++--------+ +--------+                  |
+| Client | | Driver |                  |
+|--------| |--------|         +------------------+
+| phone  | | license|         |    Invoice       |
+| address| | status |         |------------------|
++--------+ +--------+         | - invoiceId      |
+                              | - amount: double |
++------------------+          | - isPaid: boolean|
+|    Vehicle       |          | - shipment       |
+|------------------|          |------------------|
+| - vehicleId      |          | + generatePDF()  |
+| - plateNumber    |          | + markAsPaid()   |
+| - type: VehicleType         +------------------+
+| - capacity: double|
+| - status: VStatus|
+|------------------|
+| + assignDriver() |
+| + scheduleService|
++------------------+
+</pre>
+</div>
+
+<h3>3. Activity Diagram — Shipment Booking Process</h3>
+
+<div class="diagram-box">
+<pre>
+[Client Requests Shipment]
+          |
+          v
+[System Validates Client Info]
+          |
+     [Valid?]---NO--->[Show Error & Request Correction]
+          |
+         YES
+          v
+[Create Shipment Record]
+          |
+          v
+[Check Available Vehicles]
+          |
+    [Available?]---NO--->[Notify Client of Delay]
+          |
+         YES
+          v
+[Assign Vehicle & Driver]
+          |
+          v
+[Calculate Shipping Cost]
+          |
+          v
+[Generate Invoice]
+          |
+          v
+[Notify Client via System]
+          |
+          v
+[Driver Picks Up Cargo]
+          |
+          v
+[Update Status: IN_TRANSIT]
+          |
+          v
+[Deliver to Destination]
+          |
+          v
+[Update Status: DELIVERED]
+          |
+          v
+[Mark Invoice as Paid]
+          |
+          v
+[END]
+</pre>
+</div>
+
+<h3>4. Sequence Diagram — Shipment Registration</h3>
+
+<div class="diagram-box">
+<pre>
+Client        UI           ShipmentService    VehicleRepo    DriverRepo    InvoiceService
+  |            |                  |                |              |               |
+  |--register->|                  |                |              |               |
+  |            |--createShipment->|                |              |               |
+  |            |                  |--findVehicle-->|              |               |
+  |            |                  |<--vehicle------|              |               |
+  |            |                  |--findDriver------------------->|              |
+  |            |                  |<--driver----------------------|               |
+  |            |                  |--assignDriverToShipment()     |               |
+  |            |                  |--generateInvoice----------------------------------->|
+  |            |                  |<--invoice------------------------------------------|
+  |            |<--shipmentCreated|                |              |               |
+  |<--confirm--|                  |                |              |               |
+</pre>
+</div>
+
+<h3>5. Component Diagram</h3>
+
+<div class="diagram-box">
+<pre>
++-------------------------------------------------------+
+|          Smart Logistics & Transport System           |
+|                                                       |
+|  +--------------+      +------------------+           |
+|  |   UI Layer   |----->| Service Layer    |           |
+|  | (Console UI) |      |------------------|           |
+|  +--------------+      | ShipmentService  |           |
+|                        | DriverService    |           |
+|                        | VehicleService   |           |
+|                        | InvoiceService   |           |
+|                        | ReportService    |           |
+|                        +------------------+           |
+|                               |                       |
+|                        +------------------+           |
+|                        | Repository Layer |           |
+|                        |------------------|           |
+|                        | ShipmentRepo     |           |
+|                        | DriverRepo       |           |
+|                        | VehicleRepo      |           |
+|                        | ClientRepo       |           |
+|                        +------------------+           |
+|                               |                       |
+|                        +------------------+           |
+|                        |   Data Layer     |           |
+|                        | (In-Memory Store)|           |
+|                        +------------------+           |
+|                                                       |
+|  +------------------+  +------------------+           |
+|  | Factory Pattern  |  | Strategy Pattern |           |
+|  | (ShipmentFactory)|  | (CostStrategy)   |           |
+|  +------------------+  +------------------+           |
++-------------------------------------------------------+
+</pre>
+</div>
+
+<h1>PHASE 2 — Software Development Prototype & Design Patterns</h1>
+
+<h2>1. Prototype Overview</h2>
+
+<p>The SLTMS prototype is a <strong>Java 17 console application</strong> built using Maven. It implements the core logistics operations of Impano Gateway Logistics Ltd:</p>
+
+<ul>
+<li>Client registration and management</li>
+<li>Driver registration and management</li>
+<li>Fleet (vehicle) management</li>
+<li>Shipment booking with automatic resource assignment</li>
+<li>Cost calculation based on vehicle type</li>
+<li>Invoice generation and payment</li>
+<li>Operational report generation</li>
+</ul>
+
+<h2>2. Programming Best Practices Applied (Google Java Style Guide)</h2>
+
+<table>
+<tr>
+<th>Practice</th>
+<th>Implementation</th>
+</tr>
+<tr>
+<td>Naming conventions</td>
+<td>camelCase for methods/variables, PascalCase for classes</td>
+</tr>
+<tr>
+<td>Package structure</td>
+<td>com.impano.logistics.{model,service,repository,strategy,factory,ui}</td>
+</tr>
+<tr>
+<td>Single Responsibility</td>
+<td>Each class has one clear responsibility</td>
+</tr>
+<tr>
+<td>Encapsulation</td>
+<td>All fields private, accessed via getters/setters</td>
+</tr>
+<tr>
+<td>Immutability</td>
+<td>IDs set once in constructor, never changed</td>
+</tr>
+<tr>
+<td>Fail-fast validation</td>
+<td>IllegalArgumentException thrown immediately on bad input</td>
+</tr>
+<tr>
+<td>Optional usage</td>
+<td>Repository methods return Optional&lt;T&gt; instead of null</td>
+</tr>
+<tr>
+<td>Meaningful names</td>
+<td>registerShipment(), findAvailable(), markAsPaid()</td>
+</tr>
+</table>
+
+<h2>3. Design Patterns Used</h2>
+
+<h3>Pattern 1: Strategy Pattern (Behavioral)</h3>
+
+<p><strong>Location:</strong> com.impano.logistics.strategy</p>
+
+<p><strong>Problem:</strong> Different vehicle types (Truck, Van, Motorcycle) have different pricing formulas. Using if-else chains in one class violates the Open/Closed Principle.</p>
+
+<p><strong>Solution:</strong> Define a CostCalculationStrategy interface. Each vehicle type implements its own pricing algorithm. The correct strategy is selected at runtime.</p>
+
+<div class="diagram-box">
+<pre>
+&lt;&lt;interface&gt;&gt;
+CostCalculationStrategy
++ calculate(Shipment): double
+        ^
+        |
+   +---------+-----------+
+   |         |           |
+TruckCost  VanCost  MotorcycleCost
+Strategy   Strategy   Strategy
+</pre>
+</div>
+
+<p><strong>How it's used in ShipmentService:</strong></p>
+<pre>
+CostCalculationStrategy strategy = CostStrategyFactory.getStrategy(vehicle.getType());
+double cost = strategy.calculate(shipment);
+</pre>
+
+<p><strong>Benefit:</strong> Adding a new vehicle type (e.g., BOAT) only requires creating a new BoatCostStrategy class — no existing code changes needed.</p>
+
+<h3>Pattern 2: Factory Pattern (Creational)</h3>
+
+<p><strong>Location:</strong> com.impano.logistics.factory</p>
+
+<p><strong>Problem:</strong> Creating Shipment objects requires generating unique IDs and ensuring consistent initialization. Scattering this logic across the codebase leads to duplication and inconsistency.</p>
+
+<p><strong>Solution:</strong> ShipmentFactory centralizes all Shipment creation. CostStrategyFactory centralizes strategy selection based on vehicle type.</p>
+
+<pre>
+// ShipmentFactory — ensures every shipment gets a unique ID
+public static Shipment createShipment(String origin, String destination,
+                                      double weightKg, double distanceKm, Client client) {
+    String id = "SHP-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    return new Shipment(id, origin, destination, weightKg, distanceKm, client);
+}
+
+// CostStrategyFactory — returns correct strategy for vehicle type
+public static CostCalculationStrategy getStrategy(VehicleType type) {
+    switch (type) {
+        case TRUCK, PICKUP -> return new TruckCostStrategy();
+        case VAN            -> return new VanCostStrategy();
+        case MOTORCYCLE     -> return new MotorcycleCostStrategy();
+        default             -> return new VanCostStrategy();
+    }
+}
+</pre>
+
+<p><strong>Benefit:</strong> Object creation is centralized, consistent, and easy to modify.</p>
+
+<h2>4. Project Structure</h2>
+
+<pre>
+Smart_Logistics/
+├── pom.xml                          (Maven build file)
+├── Dockerfile                       (Docker container definition)
+├── .gitignore
+├── docs/
+│   ├── PHASE1_System_Analysis.md
+│   ├── PHASE2_Prototype_Design.md
+│   ├── PHASE3_Docker_and_Git.md
+│   └── PHASE4_Test_Plan.md
+└── src/
+    ├── main/java/com/impano/logistics/
+    │   ├── Main.java                (Entry point)
+    │   ├── model/                   (Domain entities)
+    │   ├── strategy/                (Strategy Pattern)
+    │   ├── factory/                 (Factory Pattern)
+    │   ├── repository/              (Data access layer)
+    │   ├── service/                 (Business logic layer)
+    │   └── ui/                      (User interface)
+    └── test/java/com/impano/logistics/
+        └── AppTest.java             (Test runner)
+</pre>
+
+<h1>PHASE 3 — Docker & Version Control</h1>
+
+<h2>Part A: Dockerizing the Application</h2>
+
+<h3>What is Docker?</h3>
+<p>Docker is a platform that packages an application and all its dependencies into a lightweight, portable container. The container runs identically on any machine — developer laptop, test server, or production cloud — eliminating "it works on my machine" problems.</p>
+
+<h3>Process to Dockerize an Application</h3>
+
+<table>
+<tr>
+<th>Step</th>
+<th>Action</th>
+</tr>
+<tr>
+<td>1</td>
+<td>Install Docker Desktop from https://www.docker.com/products/docker-desktop</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Write a Dockerfile (two-stage build: Maven compile → JRE runtime)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Build the Docker image: <code>docker build -t impano-logistics:1.0 .</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Run the container: <code>docker run -it impano-logistics:1.0</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Verify: <code>docker images</code> and <code>docker ps</code></td>
+</tr>
+</table>
+
+<h3>Our Dockerfile</h3>
+<pre>
+# Stage 1: Build
+FROM maven:3.9.6-eclipse-temurin-17 AS builder
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# Stage 2: Run
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+COPY --from=builder /app/target/smart-logistics-1.0.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
+</pre>
+
+<h3>Benefits of Dockerizing SLTMS</h3>
+<ul>
+<li>Consistent environment across development, testing, and production</li>
+<li>Easy deployment to any server or cloud (AWS ECS, Azure, GCP)</li>
+<li>Isolation from other applications on the same machine</li>
+<li>Simple version management of the application</li>
+</ul>
+
+<h2>Part B: Version Control with Git</h2>
+
+<h3>What is Git?</h3>
+<p>Git is a distributed Version Control System (VCS) that tracks changes to source code, allows multiple developers to collaborate, and enables reverting to previous versions.</p>
+
+<h3>Git Setup and Configuration</h3>
+
+<table>
+<tr>
+<th>Step</th>
+<th>Command</th>
+</tr>
+<tr>
+<td>Install Git</td>
+<td>Download from https://git-scm.com/downloads</td>
+</tr>
+<tr>
+<td>Configure identity</td>
+<td><code>git config --global user.name "Your Name"</code></td>
+</tr>
+<tr>
+<td>Initialize repo</td>
+<td><code>git init</code></td>
+</tr>
+<tr>
+<td>First commit</td>
+<td><code>git add . && git commit -m "Initial commit"</code></td>
+</tr>
+<tr>
+<td>Push to GitHub</td>
+<td><code>git remote add origin &lt;url&gt; && git push -u origin main</code></td>
+</tr>
+</table>
+
+<h3>Git Branching Strategy for SLTMS</h3>
+
+<table>
+<tr>
+<th>Branch</th>
+<th>Purpose</th>
+</tr>
+<tr>
+<td>main</td>
+<td>Stable, production-ready code</td>
+</tr>
+<tr>
+<td>develop</td>
+<td>Integration branch for features</td>
+</tr>
+<tr>
+<td>feature/*</td>
+<td>Individual feature development</td>
+</tr>
+<tr>
+<td>hotfix/*</td>
+<td>Emergency bug fixes</td>
+</tr>
+</table>
+
+<h1>PHASE 4 — Software Test Plan</h1>
+
+<h2>1. Introduction</h2>
+
+<h3>1.1 Purpose</h3>
+<p>This Software Test Plan (STP) defines the testing strategy, scope, objectives, resources, and schedule for testing the Smart Logistics & Transportation Management System (SLTMS) developed for Impano Gateway Logistics Ltd.</p>
+
+<h3>1.2 Scope</h3>
+<p>This plan covers testing of all functional modules:</p>
+<ul>
+<li>Client Management</li>
+<li>Driver Management</li>
+<li>Vehicle Management</li>
+<li>Shipment Management</li>
+<li>Invoice Management</li>
+<li>Cost Calculation (Strategy Pattern)</li>
+<li>Report Generation</li>
+</ul>
+
+<h2>2. Test Cases Summary</h2>
+
+<table>
+<tr>
+<th>Test ID</th>
+<th>Test Case</th>
+<th>Expected Result</th>
+<th>Status</th>
+</tr>
+<tr>
+<td>TC-001</td>
+<td>Client Registration — Valid Data</td>
+<td>Client created with ID starting "CLT-"</td>
+<td>✓ PASS</td>
+</tr>
+<tr>
+<td>TC-002</td>
+<td>Client Registration — Duplicate Email</td>
+<td>IllegalArgumentException thrown</td>
+<td>✓ PASS</td>
+</tr>
+<tr>
+<td>TC-003</td>
+<td>Shipment Creation — Resources Available</td>
+<td>Status=ASSIGNED, driver/vehicle assigned, cost>0</td>
+<td>✓ PASS</td>
+</tr>
+<tr>
+<td>TC-004</td>
+<td>Shipment Creation — No Resources</td>
+<td>Status=PENDING, no assignment</td>
+<td>✓ PASS</td>
+</tr>
+<tr>
+<td>TC-005</td>
+<td>Shipment Status Update</td>
+<td>Status updated successfully</td>
+<td>✓ PASS</td>
+</tr>
+<tr>
+<td>TC-006</td>
+<td>Driver/Vehicle Released After Delivery</td>
+<td>Resources marked as available</td>
+<td>✓ PASS</td>
+</tr>
+<tr>
+<td>TC-007</td>
+<td>Truck Cost Calculation</td>
+<td>5000 + (100×150) + (200×20) = 24,000 RWF</td>
+<td>✓ PASS</td>
+</tr>
+<tr>
+<td>TC-008</td>
+<td>Van Cost Calculation</td>
+<td>3000 + (50×100) + (100×15) = 9,500 RWF</td>
+<td>✓ PASS</td>
+</tr>
+<tr>
+<td>TC-009</td>
+<td>Motorcycle Cost Calculation</td>
+<td>1000 + (20×50) + (10×10) = 2,100 RWF</td>
+<td>✓ PASS</td>
+</tr>
+<tr>
+<td>TC-010</td>
+<td>Invoice Auto-Generation</td>
+<td>Invoice created, isPaid=false</td>
+<td>✓ PASS</td>
+</tr>
+<tr>
+<td>TC-011</td>
+<td>Pay Invoice</td>
+<td>Invoice marked as paid</td>
+<td>✓ PASS</td>
+</tr>
+<tr>
+<td>TC-012</td>
+<td>Invalid Shipment ID Lookup</td>
+<td>Returns Optional.empty()</td>
+<td>✓ PASS</td>
+</tr>
+<tr>
+<td>TC-013</td>
+<td>Factory — Unique Shipment IDs</td>
+<td>All IDs unique</td>
+<td>✓ PASS</td>
+</tr>
+<tr>
+<td>TC-014</td>
+<td>Strategy Factory — Correct Selection</td>
+<td>Correct strategy returned per vehicle type</td>
+<td>✓ PASS</td>
+</tr>
+</table>
+
+<h2>3. Test Environment</h2>
+
+<table>
+<tr>
+<th>Item</th>
+<th>Details</th>
+</tr>
+<tr>
+<td>Operating System</td>
+<td>Windows 11 / Ubuntu 22.04</td>
+</tr>
+<tr>
+<td>JDK</td>
+<td>Java 17 (Eclipse Temurin)</td>
+</tr>
+<tr>
+<td>Build Tool</td>
+<td>Maven 3.9.6</td>
+</tr>
+<tr>
+<td>Test Runner</td>
+<td>Manual (AppTest.java)</td>
+</tr>
+<tr>
+<td>Docker</td>
+<td>Docker Desktop 4.x</td>
+</tr>
+</table>
+
+<h2>4. Test Results Summary</h2>
+
+<p><strong>Total Test Cases:</strong> 14</p>
+<p><strong>Passed:</strong> 14 (100%)</p>
+<p><strong>Failed:</strong> 0</p>
+<p><strong>Blocked:</strong> 0</p>
+
+<h1>Conclusion</h1>
+
+<p>The Smart Logistics & Transportation Management System (SLTMS) has been successfully developed for Impano Gateway Logistics Ltd. The system implements:</p>
+
+<ul>
+<li>✓ Complete system analysis with 5 UML diagrams</li>
+<li>✓ Working Java prototype with 37 source files</li>
+<li>✓ Two design patterns (Strategy and Factory)</li>
+<li>✓ Docker containerization for easy deployment</li>
+<li>✓ Git version control with proper branching strategy</li>
+<li>✓ Comprehensive test plan with 14 passing test cases</li>
+</ul>
+
+<p>The system is ready for deployment and addresses all 6 identified problems faced by Impano Gateway Logistics Ltd.</p>
+
+<h2>How to Run the Application</h2>
+
+<pre>
+# Build with Maven
+cd Smart_Logistics
+mvn clean package
+
+# Run the application
+java -jar target/smart-logistics-1.0.jar
+
+# Run with Docker
+docker build -t impano-logistics:1.0 .
+docker run -it impano-logistics:1.0
+
+# Run tests
+mvn exec:java -Dexec.mainClass="com.impano.logistics.AppTest"
+</pre>
+
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: "Times New Roman", serif; margin: 0; padding: 0; }
+  .cover {
+    width: 100%; min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 60px 80px;
+    box-sizing: border-box; border: 8px double #003366;
+  }
+  .logo-box {
+    background-color: #003366; color: white;
+    padding: 12px 40px; font-size: 18px;
+    font-weight: bold; letter-spacing: 2px; margin-bottom: 20px;
+  }
+  .university { font-size: 16px; font-weight: bold; color: #003366; text-transform: uppercase; margin-bottom: 4px; }
+  .department { font-size: 14px; color: #003366; margin-bottom: 20px; }
+  .divider { width: 80%; border: 2px solid #003366; margin: 16px auto; }
+  .title { font-size: 26px; font-weight: bold; color: #003366; text-transform: uppercase; margin-bottom: 6px; }
+  .subtitle { font-size: 15px; color: #003366; margin-bottom: 4px; }
+  .case-study { font-size: 13px; color: #555; font-style: italic; margin-bottom: 20px; }
+  .info-table { margin: 20px auto; font-size: 14px; border-collapse: collapse; width: 70%; }
+  .info-table td { padding: 8px 16px; text-align: left; }
+  .info-table td:first-child { font-weight: bold; color: #003366; width: 45%; border-right: 2px solid #003366; }
+  .footer { margin-top: 30px; font-size: 13px; color: #777; font-style: italic; }
+
+  /* TOC */
+  .toc-page { padding: 60px 80px; font-family: "Times New Roman", serif; }
+  .toc-title {
+    text-align: center; color: #003366; font-size: 22px;
+    text-transform: uppercase; border-bottom: 3px solid #003366;
+    padding-bottom: 10px; margin-bottom: 30px;
+  }
+  .toc-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .toc-table th { background-color: #003366; color: white; padding: 10px; text-align: left; }
+  .toc-table th:last-child { text-align: right; }
+  .toc-table td { padding: 8px 10px; }
+  .toc-table td:last-child { text-align: right; }
+  .phase-row td { background-color: #e8f0fe; font-weight: bold; color: #003366; }
+  .sub-row td:first-child { padding-left: 30px; color: #555; }
+  .alt td { background-color: #f9f9f9; }
+</style>
+</head>
+<body>
+
+<!-- ===== COVER PAGE ===== -->
+<div class="cover">
+  <div class="logo-box">AUCA — ADVENTIST UNIVERSITY OF CENTRAL AFRICA</div>
+  <div class="university">Faculty of Information Technology</div>
+  <div class="department">Department of Software Engineering</div>
+  <div class="divider"></div>
+  <p style="font-size:13px; color:#555; text-transform:uppercase; letter-spacing:2px; margin-bottom:10px;">Final Exam Project</p>
+  <div class="title">Smart Logistics &amp; Transportation<br>Management System</div>
+  <div class="subtitle">SLTMS — Java Software Application</div>
+  <div class="case-study">Case Study: Impano Gateway Logistics Ltd</div>
+  <div class="divider"></div>
+  <table class="info-table">
+    <tr><td>Student Name</td><td>Hirwa Roy</td></tr>
+    <tr><td>Student ID</td><td>24174</td></tr>
+    <tr><td>Course Name</td><td>Best Programming Practices and Design Patterns</td></tr>
+    <tr><td>Instructor</td><td>RUTARINDWA JEAN PIERRE</td></tr>
+    <tr><td>Academic Year</td><td>2025 — 2026</td></tr>
+    <tr><td>Date of Submission</td><td>May 2026</td></tr>
+    <tr><td>Programming Language</td><td>Java 17</td></tr>
+  </table>
+  <div class="footer">"Digitizing Logistics Operations for Impano Gateway Logistics Ltd"</div>
+</div>
+
+<!-- PAGE BREAK -->
+<div style="page-break-before: always;"></div>
+
+<!-- ===== TABLE OF CONTENTS ===== -->
+<div class="toc-page">
+  <div class="toc-title">Table of Contents</div>
+  <table class="toc-table">
+    <tr>
+      <th style="width:10%;">Section</th>
+      <th style="width:75%;">Title</th>
+      <th style="width:15%;">Page</th>
+    </tr>
+
+    <!-- PHASE 1 -->
+    <tr class="phase-row"><td>PHASE 1</td><td>System Analysis &amp; Design</td><td>3</td></tr>
+    <tr class="sub-row"><td>1.i</td><td>General Description &amp; Analysis of Case Study</td><td>3</td></tr>
+    <tr class="sub-row alt"><td>1.ii</td><td>Functional Diagram — Internal Working of the Company</td><td>4</td></tr>
+    <tr class="sub-row"><td>1.iii</td><td>Problems Faced by Impano Gateway Logistics Ltd</td><td>5</td></tr>
+    <tr class="sub-row alt"><td>1.iv.1</td><td>Use Case Diagram</td><td>6</td></tr>
+    <tr class="sub-row"><td>1.iv.2</td><td>Class Diagram</td><td>7</td></tr>
+    <tr class="sub-row alt"><td>1.iv.3</td><td>Activity Diagram</td><td>8</td></tr>
+    <tr class="sub-row"><td>1.iv.4</td><td>Sequence Diagram</td><td>9</td></tr>
+    <tr class="sub-row alt"><td>1.iv.5</td><td>Component Diagram</td><td>10</td></tr>
+
+    <!-- PHASE 2 -->
+    <tr class="phase-row"><td>PHASE 2</td><td>Software Development Prototype &amp; Design Patterns</td><td>11</td></tr>
+    <tr class="sub-row"><td>2.1</td><td>Prototype Overview</td><td>11</td></tr>
+    <tr class="sub-row alt"><td>2.2</td><td>Google Java Style Guide — Best Practices Applied</td><td>12</td></tr>
+    <tr class="sub-row"><td>2.3</td><td>Strategy Design Pattern</td><td>13</td></tr>
+    <tr class="sub-row alt"><td>2.4</td><td>Factory Design Pattern</td><td>14</td></tr>
+    <tr class="sub-row"><td>2.5</td><td>Project Structure &amp; How to Run</td><td>15</td></tr>
+
+    <!-- PHASE 3 -->
+    <tr class="phase-row"><td>PHASE 3</td><td>Docker &amp; Version Control (Git)</td><td>16</td></tr>
+    <tr class="sub-row"><td>3.1</td><td>What is Docker &amp; Why Dockerize</td><td>16</td></tr>
+    <tr class="sub-row alt"><td>3.2</td><td>Step-by-Step Dockerization Process</td><td>17</td></tr>
+    <tr class="sub-row"><td>3.3</td><td>Dockerfile for SLTMS</td><td>18</td></tr>
+    <tr class="sub-row alt"><td>3.4</td><td>Version Control — Git Installation &amp; Configuration</td><td>19</td></tr>
+    <tr class="sub-row"><td>3.5</td><td>Git Branching Strategy</td><td>20</td></tr>
+
+    <!-- PHASE 4 -->
+    <tr class="phase-row"><td>PHASE 4</td><td>Software Test Plan</td><td>21</td></tr>
+    <tr class="sub-row"><td>4.1</td><td>Introduction &amp; Objectives</td><td>21</td></tr>
+    <tr class="sub-row alt"><td>4.2</td><td>Test Items &amp; Features to Be Tested</td><td>22</td></tr>
+    <tr class="sub-row"><td>4.3</td><td>Test Cases (TC-001 to TC-014)</td><td>23</td></tr>
+    <tr class="sub-row alt"><td>4.4</td><td>Test Environment &amp; Schedule</td><td>25</td></tr>
+    <tr class="sub-row"><td>4.5</td><td>Entry/Exit Criteria &amp; Defect Management</td><td>26</td></tr>
+
+  </table>
+</div>
+
+</body>
+</html>

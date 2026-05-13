@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SLTMS — Invoices</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<script src="../js/app.js"></script>
+<script src="../js/sidebar.js"></script>
+<script>requireAuth(); renderSidebar();</script>
+
+<div class="main">
+  <div class="topbar"><h1>🧾 Invoice Management</h1></div>
+  <div class="content">
+    <div id="alert-box"></div>
+
+    <!-- Summary cards -->
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-bottom:24px;">
+      <div class="stat-card">
+        <div class="stat-icon blue">🧾</div>
+        <div class="stat-info"><h3 id="total-invoices">0</h3><p>Total Invoices</p></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green">✅</div>
+        <div class="stat-info"><h3 id="paid-invoices">0</h3><p>Paid</p></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon red">⏳</div>
+        <div class="stat-info"><h3 id="unpaid-invoices">0</h3><p>Unpaid</p></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h2>All Invoices</h2></div>
+      <div class="card-body">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Invoice ID</th><th>Shipment ID</th><th>Client</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody id="invoices-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function renderTable() {
+    const tbody = document.getElementById('invoices-table');
+    tbody.innerHTML = '';
+    DB.invoices.forEach(inv => {
+      const shipment = DB.shipments.find(s => s.id === inv.shipmentId);
+      const clientName = shipment ? getClientName(shipment.client) : 'N/A';
+      tbody.innerHTML += `<tr>
+        <td><code>${inv.id}</code></td>
+        <td><code style="font-size:11px;">${inv.shipmentId}</code></td>
+        <td>${clientName}</td>
+        <td><strong>${formatRWF(inv.amount)}</strong></td>
+        <td><span class="badge ${inv.paid ? 'badge-paid' : 'badge-unpaid'}">${inv.paid ? 'PAID' : 'UNPAID'}</span></td>
+        <td>${!inv.paid ? `<button class="btn btn-success btn-sm" onclick="payInvoice('${inv.id}')">💳 Pay Now</button>` : '<span style="color:#aaa;">—</span>'}</td>
+      </tr>`;
+    });
+
+    document.getElementById('total-invoices').textContent  = DB.invoices.length;
+    document.getElementById('paid-invoices').textContent   = DB.invoices.filter(i => i.paid).length;
+    document.getElementById('unpaid-invoices').textContent = DB.invoices.filter(i => !i.paid).length;
+  }
+
+  function payInvoice(id) {
+    const inv = DB.invoices.find(i => i.id === id);
+    if (inv) { inv.paid = true; }
+    showAlert('alert-box', 'Invoice ' + id + ' marked as PAID!', 'success');
+    renderTable();
+  }
+
+  renderTable();
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SLTMS — Clients</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<script src="../js/app.js"></script>
+<script src="../js/sidebar.js"></script>
+<script>requireAuth(); renderSidebar();</script>
+
+<div class="main">
+  <div class="topbar">
+    <h1>👤 Client Management</h1>
+    <button class="btn btn-primary" onclick="openModal('modal-add-client')">+ Add Client</button>
+  </div>
+  <div class="content">
+    <div id="alert-box"></div>
+    <div class="card">
+      <div class="card-header"><h2>All Clients</h2></div>
+      <div class="card-body">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Address</th></tr></thead>
+            <tbody id="clients-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD CLIENT MODAL -->
+<div class="modal-overlay" id="modal-add-client">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>👤 Register New Client</h3>
+      <button class="modal-close" onclick="closeModal('modal-add-client')">✕</button>
+    </div>
+    <form id="client-form">
+      <div class="form-grid">
+        <div class="form-group"><label>Full Name</label><input type="text" id="c-name" required placeholder="e.g. Kigali Traders Ltd"></div>
+        <div class="form-group"><label>Email</label><input type="email" id="c-email" required placeholder="email@company.rw"></div>
+        <div class="form-group"><label>Phone</label><input type="text" id="c-phone" required placeholder="+250788000000"></div>
+        <div class="form-group"><label>Address</label><input type="text" id="c-address" required placeholder="City, Rwanda"></div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">✔ Register Client</button>
+        <button type="button" class="btn btn-outline" onclick="closeModal('modal-add-client')">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  function openModal(id)  { document.getElementById(id).classList.add('open'); }
+  function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+  function renderTable() {
+    const tbody = document.getElementById('clients-table');
+    tbody.innerHTML = '';
+    DB.clients.forEach(c => {
+      tbody.innerHTML += `<tr>
+        <td><code>${c.id}</code></td>
+        <td><strong>${c.name}</strong></td>
+        <td>${c.email}</td>
+        <td>${c.phone}</td>
+        <td>${c.address}</td>
+      </tr>`;
+    });
+  }
+
+  document.getElementById('client-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('c-email').value;
+    if (DB.clients.find(c => c.email === email)) {
+      showAlert('alert-box', 'A client with this email already exists.', 'danger');
+      return;
+    }
+    DB.clients.push({
+      id: generateId('CLT'),
+      name: document.getElementById('c-name').value,
+      email,
+      phone: document.getElementById('c-phone').value,
+      address: document.getElementById('c-address').value
+    });
+    closeModal('modal-add-client');
+    showAlert('alert-box', 'Client registered successfully!', 'success');
+    this.reset();
+    renderTable();
+  });
+
+  renderTable();
+</script>
+</body>
+</html>

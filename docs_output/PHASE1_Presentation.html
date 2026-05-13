@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SLTMS - Phase 1 Presentation</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Calibri', Arial, sans-serif; background: #1a1a2e; }
+
+  /* Each slide is a full page */
+  .slide {
+    width: 100%;
+    min-height: 100vh;
+    padding: 60px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    page-break-after: always;
+    position: relative;
+  }
+
+  /* Slide number bottom right */
+  .slide-num {
+    position: absolute;
+    bottom: 20px;
+    right: 40px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* ---- SLIDE THEMES ---- */
+  .slide-cover    { background: linear-gradient(135deg, #003366 0%, #0066cc 100%); color: white; text-align: center; }
+  .slide-blue     { background: linear-gradient(135deg, #003366 0%, #005599 100%); color: white; }
+  .slide-white    { background: #ffffff; color: #222; }
+  .slide-dark     { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; }
+  .slide-green    { background: linear-gradient(135deg, #004d00 0%, #006600 100%); color: white; }
+  .slide-orange   { background: linear-gradient(135deg, #7a2800 0%, #cc4400 100%); color: white; }
+
+  /* ---- TYPOGRAPHY ---- */
+  .cover-title    { font-size: 42px; font-weight: bold; margin-bottom: 16px; text-shadow: 2px 2px 8px rgba(0,0,0,0.4); }
+  .cover-subtitle { font-size: 22px; margin-bottom: 30px; opacity: 0.9; }
+  .cover-badge    { display: inline-block; background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.5); padding: 10px 30px; border-radius: 30px; font-size: 14px; margin: 6px; }
+  .slide-title    { font-size: 32px; font-weight: bold; margin-bottom: 30px; padding-bottom: 12px; border-bottom: 3px solid rgba(255,255,255,0.4); }
+  .slide-title-dark { font-size: 32px; font-weight: bold; margin-bottom: 30px; padding-bottom: 12px; border-bottom: 3px solid #003366; color: #003366; }
+  .phase-label    { font-size: 13px; text-transform: uppercase; letter-spacing: 3px; opacity: 0.7; margin-bottom: 8px; }
+
+  /* ---- CARDS ---- */
+  .card-grid      { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 10px; }
+  .card-grid-3    { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 10px; }
+  .card {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .card-white {
+    background: #f0f4ff;
+    border: 2px solid #003366;
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .card h3    { font-size: 16px; margin-bottom: 8px; }
+  .card p     { font-size: 14px; opacity: 0.85; line-height: 1.5; }
+  .card-icon  { font-size: 28px; margin-bottom: 10px; }
+
+  /* ---- TABLES ---- */
+  table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px; }
+  th { background: rgba(255,255,255,0.2); padding: 12px; text-align: left; font-weight: bold; }
+  td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.05); }
+  .table-dark th { background: #003366; color: white; }
+  .table-dark td { border-bottom: 1px solid #ddd; color: #222; }
+  .table-dark tr:nth-child(even) td { background: #f0f4ff; }
+
+  /* ---- DIAGRAM BOXES ---- */
+  .diagram {
+    background: rgba(0,0,0,0.3);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 10px;
+    padding: 20px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: pre;
+    overflow-x: auto;
+    margin-top: 16px;
+  }
+  .diagram-white {
+    background: #f8f9ff;
+    border: 2px solid #003366;
+    border-radius: 10px;
+    padding: 20px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: pre;
+    overflow-x: auto;
+    margin-top: 16px;
+    color: #003366;
+  }
+
+  /* ---- BADGES ---- */
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin: 3px; }
+  .badge-green  { background: #00cc44; color: white; }
+  .badge-blue   { background: #0066cc; color: white; }
+  .badge-orange { background: #ff6600; color: white; }
+
+  /* ---- FLOW ---- */
+  .flow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  .flow-box { background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.4); border-radius: 8px; padding: 12px 18px; font-size: 14px; font-weight: bold; text-align: center; }
+  .flow-arrow { font-size: 24px; opacity: 0.7; }
+
+  /* ---- LIST ---- */
+  .check-list { list-style: none; margin-top: 16px; }
+  .check-list li { padding: 8px 0; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .check-list li::before { content: "✔ "; color: #00ff88; font-weight: bold; }
+
+  /* ---- HIGHLIGHT BOX ---- */
+  .highlight-box {
+    background: rgba(255,255,100,0.15);
+    border-left: 5px solid #ffcc00;
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 16px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ---- TWO COLUMN ---- */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 10px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<!-- ========== SLIDE 1: COVER ========== -->
+<div class="slide slide-cover">
+  <div style="margin-bottom:30px; font-size:40px;">🚛</div>
+  <div class="cover-title">Smart Logistics &amp; Transportation<br>Management System</div>
+  <div class="cover-subtitle">SLTMS — Phase 1: System Analysis &amp; Design</div>
+  <div style="margin: 20px 0;">
+    <span class="cover-badge">📍 Case Study: Impano Gateway Logistics Ltd</span>
+    <span class="cover-badge">☕ Language: Java 17</span>
+  </div>
+  <div style="margin-top: 30px; font-size: 14px; opacity: 0.8;">
+    <div><strong>Student:</strong> Hirwa Roy &nbsp;|&nbsp; <strong>ID:</strong> 24174</div>
+    <div><strong>Course:</strong> Best Programming Practices and Design Patterns</div>
+    <div><strong>Instructor:</strong> RUTARINDWA JEAN PIERRE &nbsp;|&nbsp; <strong>AUCA</strong> — 2025/2026</div>
+  </div>
+  <div class="slide-num">1 / 10</div>
+</div>
+
+<!-- ========== SLIDE 2: TOPIC & CASE STUDY ========== -->
+<div class="slide slide-blue">
+  <div class="phase-label">Phase 1 — Item 1</div>
+  <div class="slide-title">Topic &amp; Case Study</div>
+  <div class="two-col">
+    <div>
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <h3>Topic</h3>
+        <p>Smart Logistics &amp; Transportation Management System (SLTMS)</p>
+        <br>
+        <p>A Java-based software application that digitizes and automates all core logistics operations.</p>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-icon">🏢</div>
+        <h3>Case Study</h3>
+        <p><strong>Impano Gateway Logistics Ltd</strong></p>
+        <br>
+        <p>A Rwandan logistics company providing freight forwarding, cargo tracking, fleet management, and last-mile delivery across Rwanda and East Africa.</p>
+      </div>
+    </div>
+  </div>
+  <div class="highlight-box" style="margin-top:24px;">
+    <strong>Problem:</strong> The company currently uses manual processes — phone calls, paper records, and spreadsheets — causing delays, lost shipments, billing errors, and poor customer service.
+  </div>
+  <div class="slide-num">2 / 10</div>
+</div>
+
+<!-- ========== SLIDE 3: FUNCTIONAL DIAGRAM ========== -->
+<div class="slide slide-dark">
+  <div class="phase-label">Phase 1 — Item 2</div>
+  <div class="slide-title">Functional Diagram — Internal Working</div>
+  <div class="flow" style="justify-content:center; margin-bottom:20px;">
+    <div class="flow-box">👤 CLIENT<br><small>Places Order</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box">📦 SHIPMENT<br><small>Order Created</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box">🏭 WAREHOUSE<br><small>Cargo Stored</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box">🚗 DRIVER<br><small>Assigned</small></div>
+  </div>
+  <div class="flow" style="justify-content:center;">
+    <div class="flow-box">💰 INVOICE<br><small>Payment Done</small></div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-box">✅ DELIVERY<br><small>Confirmed</small></div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-box">🗺️ ROUTE<br><small>Planned</small></div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-box">🚛 FLEET<br><small>Vehicle Tracked</small></div>
+  </div>
+  <div class="card-grid-3" style="margin-top:24px;">
+    <div class="card"><h3>⚙️ Operations</h3><p>Shipment bookings &amp; driver assignments</p></div>
+    <div class="card"><h3>🚛 Fleet Dept</h3><p>Vehicle maintenance &amp; tracking</p></div>
+    <div class="card"><h3>💼 Finance</h3><p>Invoicing, payments &amp; reports</p></div>
+  </div>
+  <div class="slide-num">3 / 10</div>
+</div>
+
+<!-- ========== SLIDE 4: PROBLEMS ========== -->
+<div class="slide slide-orange">
+  <div class="phase-label">Phase 1 — Item 3</div>
+  <div class="slide-title">Problems Faced by Impano Gateway Logistics Ltd</div>
+  <table>
+    <tr>
+      <th>#</th>
+      <th>Problem</th>
+      <th>Impact</th>
+    </tr>
+    <tr><td>1</td><td>📞 Manual shipment tracking via phone calls</td><td>Delays, lost shipments</td></tr>
+    <tr><td>2</td><td>❌ No centralized driver/vehicle assignment</td><td>Idle vehicles, inefficiency</td></tr>
+    <tr><td>3</td><td>📄 Paper-based invoicing and billing</td><td>Errors, slow payments</td></tr>
+    <tr><td>4</td><td>👁️ No real-time delivery status for clients</td><td>Poor customer satisfaction</td></tr>
+    <tr><td>5</td><td>🔧 No fleet maintenance schedule</td><td>Unexpected breakdowns</td></tr>
+    <tr><td>6</td><td>📊 Difficulty generating reports</td><td>Poor management decisions</td></tr>
+  </table>
+  <div class="highlight-box" style="margin-top:20px;">
+    <strong>Solution:</strong> SLTMS automates all 6 problem areas — shipment tracking, driver assignment, digital invoicing, real-time status, fleet management, and automated reports.
+  </div>
+  <div class="slide-num">4 / 10</div>
+</div>
+
+<!-- ========== SLIDE 5: USE CASE DIAGRAM ========== -->
+<div class="slide slide-white">
+  <div class="phase-label" style="color:#003366;">Phase 1 — Diagram 1</div>
+  <div class="slide-title-dark">Use Case Diagram</div>
+  <div class="two-col">
+    <div class="diagram-white">+------------------------------------------+
+|   Smart Logistics &amp; Transport System   |
+|                                          |
+|  [Register Shipment]                     |
+|  [Track Shipment]          &lt;-- Client    |
+|  [View Invoice]                          |
+|  [Request Delivery]                      |
+|                                          |
+|  [Assign Driver]           &lt;-- Driver    |
+|  [Update Delivery Status]                |
+|  [View Assigned Routes]                  |
+|                                          |
+|  [Manage Fleet/Vehicles]   &lt;-- Manager  |
+|  [Generate Reports]                      |
+|  [Manage Clients]                        |
+|                                          |
+|  [Manage Users]            &lt;-- Admin    |
+|  [Configure System]                      |
++------------------------------------------+</div>
+    <div>
+      <div class="card-white" style="margin-bottom:12px;">
+        <h3 style="color:#003366;">👤 Client</h3>
+        <p>Register shipment, track delivery, view invoice</p>
+      </div>
+      <div class="card-white" style="margin-bottom:12px;">
+        <h3 style="color:#003366;">🚗 Driver</h3>
+        <p>Update delivery status, view assigned routes</p>
+      </div>
+      <div class="card-white" style="margin-bottom:12px;">
+        <h3 style="color:#003366;">👔 Manager</h3>
+        <p>Manage fleet, generate reports, manage clients</p>
+      </div>
+      <div class="card-white">
+        <h3 style="color:#003366;">🔐 Admin</h3>
+        <p>Manage users, configure system settings</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">5 / 10</div>
+</div>
+
+<!-- ========== SLIDE 6: CLASS DIAGRAM ========== -->
+<div class="slide slide-blue">
+  <div class="phase-label">Phase 1 — Diagram 2</div>
+  <div class="slide-title">Class Diagram</div>
+  <div class="two-col">
+    <div class="diagram">+------------------+     +------------------+
+|     User         |     |    Shipment      |
+|------------------|     |------------------|
+| -userId: String  |     | -shipmentId      |
+| -name: String    |     | -origin: String  |
+| -email: String   |     | -destination     |
+| -role: Role      |     | -weightKg: double|
+|------------------|     | -status: Status  |
+| +login()         |     | -client: Client  |
+| +logout()        |     | -driver: Driver  |
++------------------+     | -vehicle: Vehicle|
+        ^                |------------------|
+   +---------+           | +updateStatus()  |
+   |         |           | +calculateCost() |
++--------+ +--------+    +------------------+
+| Client | | Driver |
+|--------| |--------|    +------------------+
+| phone  | |license |    |    Invoice       |
+| address| |available    |------------------|
++--------+ +--------+    | -invoiceId       |
+                         | -amount: double  |
++------------------+     | -isPaid: boolean |
+|    Vehicle       |     |------------------|
+|------------------|     | +markAsPaid()    |
+| -vehicleId       |     +------------------+
+| -plateNumber     |
+| -type: VehicleType
+| -capacityKg      |
+| -status: VStatus |
++------------------+</div>
+    <div>
+      <div class="card" style="margin-bottom:12px;">
+        <h3>🔑 Key Relationships</h3>
+        <p>• User is parent of Client and Driver (Inheritance)<br>
+           • Shipment has one Client, one Driver, one Vehicle<br>
+           • Invoice belongs to one Shipment</p>
+      </div>
+      <div class="card">
+        <h3>📦 Total Classes</h3>
+        <p>10 model classes + 5 services + 5 repositories + 2 factories + 3 strategies</p>
+        <br>
+        <p><span class="badge badge-blue">37 Java files</span></p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">6 / 10</div>
+</div>
+
+<!-- ========== SLIDE 7: ACTIVITY DIAGRAM ========== -->
+<div class="slide slide-dark">
+  <div class="phase-label">Phase 1 — Diagram 3</div>
+  <div class="slide-title">Activity Diagram — Shipment Booking Process</div>
+  <div class="two-col">
+    <div class="diagram">  [START]
+     |
+     v
+[Client Requests Shipment]
+     |
+     v
+[Validate Client Info]
+     |
+  [Valid?]--NO-->[Show Error]
+     |
+    YES
+     v
+[Create Shipment Record]
+     |
+     v
+[Check Available Vehicle]
+     |
+ [Available?]--NO-->[Notify Delay → PENDING]
+     |
+    YES
+     v
+[Assign Vehicle &amp; Driver]
+     |
+     v
+[Calculate Shipping Cost]
+  (Strategy Pattern)
+     |
+     v
+[Generate Invoice]
+     |
+     v
+[Driver Picks Up Cargo]
+     |
+     v
+[Status: IN_TRANSIT]
+     |
+     v
+[Deliver to Destination]
+     |
+     v
+[Status: DELIVERED]
+     |
+     v
+[Mark Invoice as Paid]
+     |
+     v
+   [END]</div>
+    <div>
+      <div class="card" style="margin-bottom:12px;">
+        <h3>🔄 Status Flow</h3>
+        <p>PENDING → ASSIGNED → IN_TRANSIT → DELIVERED</p>
+      </div>
+      <div class="card" style="margin-bottom:12px;">
+        <h3>⚡ Auto Actions</h3>
+        <p>• Driver auto-assigned<br>• Vehicle auto-assigned<br>• Cost auto-calculated<br>• Invoice auto-generated</p>
+      </div>
+      <div class="card">
+        <h3>🔓 Resource Release</h3>
+        <p>When DELIVERED or CANCELLED, driver and vehicle are automatically freed for new shipments.</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">7 / 10</div>
+</div>
+
+<!-- ========== SLIDE 8: SEQUENCE DIAGRAM ========== -->
+<div class="slide slide-white">
+  <div class="phase-label" style="color:#003366;">Phase 1 — Diagram 4</div>
+  <div class="slide-title-dark">Sequence Diagram — Shipment Registration</div>
+  <div class="diagram-white">Client    ConsoleApp    ShipmentService   VehicleRepo   DriverRepo   InvoiceService
+  |            |                |                  |             |               |
+  |--login---->|                |                  |             |               |
+  |            |--authenticate->|                  |             |               |
+  |&lt;--welcome--|                |                  |             |               |
+  |            |                |                  |             |               |
+  |--register  |                |                  |             |               |
+    shipment-->|                |                  |             |               |
+  |            |--createShipment|                  |             |               |
+  |            |    (Factory)-->|                  |             |               |
+  |            |                |--findVehicle---->|             |               |
+  |            |                |&lt;--vehicle--------|             |               |
+  |            |                |--findDriver------------------->|               |
+  |            |                |&lt;--driver----------------------|               |
+  |            |                |--assign + calcCost(Strategy)  |               |
+  |            |                |--generateInvoice-------------------------------->|
+  |            |                |&lt;--invoice--------------------------------------|
+  |            |&lt;--shipmentDone-|                  |             |               |
+  |&lt;--confirm--|                |                  |             |               |</div>
+  <div class="slide-num">8 / 10</div>
+</div>
+
+<!-- ========== SLIDE 9: COMPONENT DIAGRAM ========== -->
+<div class="slide slide-green">
+  <div class="phase-label">Phase 1 — Diagram 5</div>
+  <div class="slide-title">Component Diagram — System Architecture</div>
+  <div class="two-col">
+    <div class="diagram">+-----------------------------------------------+
+|      Smart Logistics &amp; Transport System      |
+|                                               |
+|  +------------+    +---------------------+   |
+|  |  UI Layer  |--->|   Service Layer     |   |
+|  | ConsoleApp |    |---------------------|   |
+|  +------------+    | ShipmentService     |   |
+|                    | ClientService       |   |
+|                    | DriverService       |   |
+|                    | VehicleService      |   |
+|                    | InvoiceService      |   |
+|                    | AuthService         |   |
+|                    +---------------------+   |
+|                            |                 |
+|                    +---------------------+   |
+|                    |  Repository Layer   |   |
+|                    |---------------------|   |
+|                    | ShipmentRepository  |   |
+|                    | ClientRepository    |   |
+|                    | DriverRepository    |   |
+|                    | VehicleRepository   |   |
+|                    | InvoiceRepository   |   |
+|                    +---------------------+   |
+|                            |                 |
+|                    +---------------------+   |
+|                    |    Model Layer      |   |
+|                    | User|Client|Driver  |   |
+|                    | Vehicle|Shipment    |   |
+|                    | Invoice|Enums       |   |
+|                    +---------------------+   |
+|                                               |
+|  +-----------------+ +------------------+    |
+|  | Factory Pattern | | Strategy Pattern |    |
+|  | ShipmentFactory | | TruckCostStrategy|    |
+|  | CostStratFactory| | VanCostStrategy  |    |
+|  +-----------------+ +------------------+    |
++-----------------------------------------------+</div>
+    <div>
+      <div class="card" style="margin-bottom:12px;">
+        <h3>🏗️ 4 Layers</h3>
+        <p>UI → Service → Repository → Model</p>
+        <p>Each layer has one responsibility</p>
+      </div>
+      <div class="card" style="margin-bottom:12px;">
+        <h3>🎨 Design Patterns</h3>
+        <p><strong>Factory:</strong> Creates shipments with unique IDs</p>
+        <p><strong>Strategy:</strong> Calculates cost per vehicle type</p>
+      </div>
+      <div class="card">
+        <h3>🐳 Deployment</h3>
+        <p>Packaged as Docker container for consistent deployment anywhere</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">9 / 10</div>
+</div>
+
+<!-- ========== SLIDE 10: SUMMARY ========== -->
+<div class="slide slide-cover">
+  <div style="font-size:36px; margin-bottom:20px;">✅</div>
+  <div class="cover-title" style="font-size:32px;">Phase 1 — Summary</div>
+  <div class="card-grid" style="margin-top:30px; max-width:800px; margin-left:auto; margin-right:auto;">
+    <div class="card"><div class="card-icon">📋</div><h3>Topic &amp; Case Study</h3><p>SLTMS for Impano Gateway Logistics Ltd ✔</p></div>
+    <div class="card"><div class="card-icon">🔄</div><h3>Functional Diagram</h3><p>Full company workflow with 5 departments ✔</p></div>
+    <div class="card"><div class="card-icon">⚠️</div><h3>Problems Identified</h3><p>6 problems with impact analysis ✔</p></div>
+    <div class="card"><div class="card-icon">📐</div><h3>5 UML Diagrams</h3><p>Use Case, Class, Activity, Sequence, Component ✔</p></div>
+  </div>
+  <div style="margin-top:40px; font-size:14px; opacity:0.8;">
+    <div><strong>Student:</strong> Hirwa Roy &nbsp;|&nbsp; <strong>ID:</strong> 24174</div>
+    <div><strong>GitHub:</strong> https://github.com/hirwa333/Best_Programming_Final_Project</div>
+  </div>
+  <div class="slide-num">10 / 10</div>
+</div>
+
+</body>
+</html>

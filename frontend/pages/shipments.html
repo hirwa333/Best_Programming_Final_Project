@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SLTMS — Shipments</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<script src="../js/app.js"></script>
+<script src="../js/sidebar.js"></script>
+<script>requireAuth(); renderSidebar();</script>
+
+<div class="main">
+  <div class="topbar">
+    <h1>📦 Shipment Management</h1>
+    <button class="btn btn-primary" onclick="openModal('modal-new-shipment')">+ New Shipment</button>
+  </div>
+
+  <div class="content">
+    <div id="alert-box"></div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>All Shipments</h2>
+        <span id="shipment-count" style="font-size:12px; color:#667788;"></span>
+      </div>
+      <div class="card-body">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Shipment ID</th>
+                <th>Client</th>
+                <th>Origin</th>
+                <th>Destination</th>
+                <th>Weight</th>
+                <th>Distance</th>
+                <th>Driver</th>
+                <th>Vehicle</th>
+                <th>Cost</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="shipments-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEW SHIPMENT MODAL -->
+<div class="modal-overlay" id="modal-new-shipment">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>📦 Register New Shipment</h3>
+      <button class="modal-close" onclick="closeModal('modal-new-shipment')">✕</button>
+    </div>
+    <div id="modal-alert"></div>
+    <form id="shipment-form">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Client</label>
+          <select id="s-client" required>
+            <option value="">Select client...</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Origin City</label>
+          <input type="text" id="s-origin" placeholder="e.g. Kigali" required>
+        </div>
+        <div class="form-group">
+          <label>Destination City</label>
+          <input type="text" id="s-destination" placeholder="e.g. Butare" required>
+        </div>
+        <div class="form-group">
+          <label>Cargo Weight (kg)</label>
+          <input type="number" id="s-weight" placeholder="e.g. 200" min="1" required>
+        </div>
+        <div class="form-group">
+          <label>Distance (km)</label>
+          <input type="number" id="s-distance" placeholder="e.g. 130" min="1" required>
+        </div>
+        <div class="form-group">
+          <label>Estimated Cost</label>
+          <input type="text" id="s-cost-preview" placeholder="Auto-calculated" readonly style="background:#f0f4ff;">
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">✔ Register Shipment</button>
+        <button type="button" class="btn btn-outline" onclick="closeModal('modal-new-shipment')">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- UPDATE STATUS MODAL -->
+<div class="modal-overlay" id="modal-update-status">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header">
+      <h3>🔄 Update Shipment Status</h3>
+      <button class="modal-close" onclick="closeModal('modal-update-status')">✕</button>
+    </div>
+    <input type="hidden" id="update-shipment-id">
+    <div class="form-group" style="margin-bottom:20px;">
+      <label>New Status</label>
+      <select id="new-status">
+        <option value="PENDING">PENDING</option>
+        <option value="ASSIGNED">ASSIGNED</option>
+        <option value="IN_TRANSIT">IN TRANSIT</option>
+        <option value="DELIVERED">DELIVERED</option>
+        <option value="CANCELLED">CANCELLED</option>
+      </select>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="submitStatusUpdate()">Update</button>
+      <button class="btn btn-outline" onclick="closeModal('modal-update-status')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openModal(id)  { document.getElementById(id).classList.add('open'); }
+  function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+  // Populate client dropdown
+  const clientSelect = document.getElementById('s-client');
+  DB.clients.forEach(c => {
+    clientSelect.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+  });
+
+  // Auto-calculate cost preview
+  function updateCostPreview() {
+    const weight   = parseFloat(document.getElementById('s-weight').value) || 0;
+    const distance = parseFloat(document.getElementById('s-distance').value) || 0;
+    const avVehicle = DB.vehicles.find(v => v.status === 'AVAILABLE');
+    if (weight > 0 && distance > 0 && avVehicle) {
+      const cost = calculateCost(avVehicle.type, distance, weight);
+      document.getElementById('s-cost-preview').value = formatRWF(cost) + ' (via ' + avVehicle.type + ')';
+    }
+  }
+  document.getElementById('s-weight').addEventListener('input', updateCostPreview);
+  document.getElementById('s-distance').addEventListener('input', updateCostPreview);
+
+  // Submit new shipment
+  document.getElementById('shipment-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const shipment = registerShipment(
+      document.getElementById('s-origin').value,
+      document.getElementById('s-destination').value,
+      document.getElementById('s-weight').value,
+      document.getElementById('s-distance').value,
+      document.getElementById('s-client').value
+    );
+    closeModal('modal-new-shipment');
+    showAlert('alert-box', `Shipment ${shipment.id} created! Status: ${shipment.status}`, 'success');
+    this.reset();
+    renderTable();
+  });
+
+  // Render shipments table
+  function renderTable() {
+    const tbody = document.getElementById('shipments-table');
+    tbody.innerHTML = '';
+    document.getElementById('shipment-count').textContent = DB.shipments.length + ' shipments';
+    DB.shipments.slice().reverse().forEach(s => {
+      tbody.innerHTML += `<tr>
+        <td><code style="font-size:11px;">${s.id}</code></td>
+        <td>${getClientName(s.client)}</td>
+        <td>${s.origin}</td>
+        <td>${s.destination}</td>
+        <td>${s.weight} kg</td>
+        <td>${s.distance} km</td>
+        <td>${s.driver  ? getDriverName(s.driver)   : '<span style="color:#aaa;">—</span>'}</td>
+        <td>${s.vehicle ? getVehiclePlate(s.vehicle) : '<span style="color:#aaa;">—</span>'}</td>
+        <td>${s.cost > 0 ? formatRWF(s.cost) : '—'}</td>
+        <td>${statusBadge(s.status)}</td>
+        <td><button class="btn btn-outline btn-sm" onclick="openStatusModal('${s.id}','${s.status}')">Update</button></td>
+      </tr>`;
+    });
+  }
+
+  function openStatusModal(id, currentStatus) {
+    document.getElementById('update-shipment-id').value = id;
+    document.getElementById('new-status').value = currentStatus;
+    openModal('modal-update-status');
+  }
+
+  function submitStatusUpdate() {
+    const id     = document.getElementById('update-shipment-id').value;
+    const status = document.getElementById('new-status').value;
+    const s = DB.shipments.find(s => s.id === id);
+    if (s) {
+      s.status = status;
+      // Free resources on delivery or cancellation
+      if (status === 'DELIVERED' || status === 'CANCELLED') {
+        if (s.vehicle) { const v = DB.vehicles.find(v => v.id === s.vehicle); if (v) v.status = 'AVAILABLE'; }
+        if (s.driver)  { const d = DB.drivers.find(d => d.id === s.driver);   if (d) d.available = true; }
+      }
+    }
+    closeModal('modal-update-status');
+    showAlert('alert-box', 'Shipment status updated to ' + status, 'success');
+    renderTable();
+  }
+
+  renderTable();
+</script>
+</body>
+</html>

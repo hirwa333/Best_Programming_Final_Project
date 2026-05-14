@@ -1,8 +1,19 @@
 package com.impano.logistics;
 
-import com.impano.logistics.model.*;
-import com.impano.logistics.repository.*;
-import com.impano.logistics.service.*;
+import com.impano.logistics.model.Client;
+import com.impano.logistics.model.Driver;
+import com.impano.logistics.model.Shipment;
+import com.impano.logistics.model.ShipmentStatus;
+import com.impano.logistics.model.Vehicle;
+import com.impano.logistics.model.VehicleType;
+import com.impano.logistics.repository.ClientRepository;
+import com.impano.logistics.repository.DriverRepository;
+import com.impano.logistics.repository.InvoiceRepository;
+import com.impano.logistics.repository.ShipmentRepository;
+import com.impano.logistics.repository.VehicleRepository;
+import com.impano.logistics.service.ClientService;
+import com.impano.logistics.service.InvoiceService;
+import com.impano.logistics.service.ShipmentService;
 
 /**
  * Manual test runner for Smart Logistics & Transportation Management System
@@ -122,7 +133,7 @@ public class AppTest {
         ShipmentService service = new ShipmentService(shipmentRepo, driverRepo, vehicleRepo, invoiceRepo);
         Shipment s = service.registerShipment("Kigali", "Muhanga", 200, 100, client);
 
-        assert_(s.getCost() == 24000.0, "testCostCalculation: truck cost should be 24000 RWF, got " + s.getCost());
+        assert_(s.getCost() == 24000, "testCostCalculation: truck cost should be 24000 RWF, got " + s.getCost());
     }
 
     // ---- helpers ----

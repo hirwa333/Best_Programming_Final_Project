@@ -3,6 +3,7 @@ package com.impano.logistics.ui;
 import com.impano.logistics.model.*;
 import com.impano.logistics.repository.*;
 import com.impano.logistics.service.*;
+import com.impano.logistics.repository.DataStore;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,24 +26,30 @@ public class ConsoleApp {
 
     private final Scanner scanner = new Scanner(System.in);
 
+    // Keep references to repos so we can save after every change
+    private final ClientRepository  clientRepo;
+    private final DriverRepository  driverRepo;
+    private final VehicleRepository vehicleRepo;
+
     public ConsoleApp() {
         // Initialize all repositories (in-memory data store)
-        ClientRepository clientRepo = new ClientRepository();
-        DriverRepository driverRepo = new DriverRepository();
-        VehicleRepository vehicleRepo = new VehicleRepository();
+        this.clientRepo  = new ClientRepository();
+        this.driverRepo  = new DriverRepository();
+        this.vehicleRepo = new VehicleRepository();
         ShipmentRepository shipmentRepo = new ShipmentRepository();
-        InvoiceRepository invoiceRepo = new InvoiceRepository();
+        InvoiceRepository  invoiceRepo  = new InvoiceRepository();
 
         // Wire services with their repositories
-        this.clientService = new ClientService(clientRepo);
-        this.driverService = new DriverService(driverRepo);
-        this.vehicleService = new VehicleService(vehicleRepo);
+        this.clientService   = new ClientService(clientRepo);
+        this.driverService   = new DriverService(driverRepo);
+        this.vehicleService  = new VehicleService(vehicleRepo);
         this.shipmentService = new ShipmentService(shipmentRepo, driverRepo, vehicleRepo, invoiceRepo);
-        this.invoiceService = new InvoiceService(invoiceRepo);
-        this.authService = new AuthService();
+        this.invoiceService  = new InvoiceService(invoiceRepo);
+        this.authService     = new AuthService();
 
-        // Load default data so the system is ready to use immediately
-        seedData(driverRepo, vehicleRepo);
+        // Load saved data first, then seed only if nothing was loaded
+        DataStore.load(clientRepo, driverRepo, vehicleRepo);
+        if (driverRepo.findAll().isEmpty())  seedData(driverRepo, vehicleRepo);
         seedUsers();
     }
 
@@ -51,11 +58,13 @@ public class ConsoleApp {
      * This simulates pre-existing company fleet and staff data.
      */
     private void seedData(DriverRepository driverRepo, VehicleRepository vehicleRepo) {
-        driverRepo.save(new Driver("DRV-001", "Jean Bosco", "bosco@impano.rw", "pass123", "RW-DL-001"));
-        driverRepo.save(new Driver("DRV-002", "Amina Uwase", "amina@impano.rw", "pass123", "RW-DL-002"));
-        vehicleRepo.save(new Vehicle("VEH-001", "RAC 001A", VehicleType.TRUCK, 5000));
-        vehicleRepo.save(new Vehicle("VEH-002", "RAB 202B", VehicleType.VAN, 1500));
+        driverRepo.save(new Driver("DRV-001", "Jean Bosco",   "bosco@impano.rw",   "pass123", "RW-DL-001"));
+        driverRepo.save(new Driver("DRV-002", "Amina Uwase",  "amina@impano.rw",   "pass123", "RW-DL-002"));
+        vehicleRepo.save(new Vehicle("VEH-001", "RAC 001A", VehicleType.TRUCK,      5000));
+        vehicleRepo.save(new Vehicle("VEH-002", "RAB 202B", VehicleType.VAN,        1500));
         vehicleRepo.save(new Vehicle("VEH-003", "RAD 303C", VehicleType.MOTORCYCLE, 100));
+        // Pre-registered client
+        clientRepo.save(new Client("CLT-001", "Nahimana", "nahimana@impano.rw", "pass123", "+250788000001", "Kigali, Rwanda"));
     }
 
     /**
@@ -194,6 +203,7 @@ public class ConsoleApp {
             String address = readString("Address: ");
             try {
                 Client c = clientService.registerClient(name, email, password, phone, address);
+                DataStore.save(clientRepo, driverRepo, vehicleRepo);
                 System.out.println("✔ Client registered successfully!");
                 System.out.println("  " + c);
             } catch (IllegalArgumentException e) {
@@ -228,6 +238,7 @@ public class ConsoleApp {
             String password = readString("Password: ");
             String license = readString("License Number: ");
             Driver d = driverService.registerDriver(name, email, password, license);
+            DataStore.save(clientRepo, driverRepo, vehicleRepo);
             System.out.println("✔ Driver registered: " + d);
         } else if (choice == 2) {
             List<Driver> drivers = driverService.getAllDrivers();
@@ -257,6 +268,7 @@ public class ConsoleApp {
             VehicleType type = VehicleType.valueOf(readString("Type: ").toUpperCase());
             double capacity = readDouble("Capacity (kg): ");
             Vehicle v = vehicleService.addVehicle(plate, type, capacity);
+            DataStore.save(clientRepo, driverRepo, vehicleRepo);
             System.out.println("✔ Vehicle added: " + v);
         } else if (choice == 2) {
             List<Vehicle> vehicles = vehicleService.getAllVehicles();

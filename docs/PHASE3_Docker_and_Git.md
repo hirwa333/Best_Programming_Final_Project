@@ -85,7 +85,7 @@ Download from https://git-scm.com/downloads and install.
 
 **Step 2 — Configure Git Identity**
 ```bash
-git config --global user.name "Your Name"
+git config --global user.name "https://github.com/hirwa333/Best_Programming_Final_Project"
 git config --global user.email "your.email@impano.rw"
 ```
 
